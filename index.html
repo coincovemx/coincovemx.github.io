@@ -26,31 +26,31 @@
         <h1>
 <a id="volabit-api-documentation" class="anchor" href="#volabit-api-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>VOLABIT API DOCUMENTATION</h1>
 
-<p>The following document is divided into three parts. Part I describes how to gain access to the swagger documentation, Part II describes how to generate your first token and how to refresh your token and Part III covers the API calls that can be made as well as some implementation tips. </p>
+<p>The following document is divided into three parts. Part I describes how to gain access to the swagger documentation. Part II describes how to generate your first API token and how to refresh your token. Finally, Part III covers the API calls that can be made as well as some tips for implementation. </p>
 
-<h2>
-<a id="part-i-access-swagger-documentation" class="anchor" href="#part-i-access-swagger-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>PART I. ACCESS <a href="https://github.com/swagger-api/swagger-ui">SWAGGER</a> DOCUMENTATION.</h2>
+<h2 style="padding-top: 30px">
+<a id="part-i-access-swagger-documentation" class="anchor" href="#part-i-access-swagger-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>PART I. ACCESS <a href="https://github.com/swagger-api/swagger-ui">SWAGGER</a> DOCUMENTATION</h2>
 
 <p>The swagger documentation provides an overview of all the methods with their parameters and expected responses.</p>
 
 <ol>
 <li>Go to <a href="https://www.volabit.com/api-docs/">https://www.volabit.com/api-docs/</a>
 </li>
-<li>Enter the following APP ID <code>a47f325d0718ccd3e8aa1ec29c47d6d3a2cf18bca639b3fb1014b0362d163d06</code> and click save.</li>
+<li>Enter the following APP ID: <code>a47f325d0718ccd3e8aa1ec29c47d6d3a2cf18bca639b3fb1014b0362d163d06</code> and click <b>Save</b>.</li>
 <li>
-<p>Sign into your account or create one and click on Authorize button.</p>
+<p>Create an account or sign in to an existing account and click on the <b>Authorize</b> button.</p>
 
-<p>To get full access to the API we will require you send us some KYC/AML documents. Please contact <a href="mailto:support@volabit.com">support@volabit.com</a> for further instructions. </p>
+<p>To get full access to the API we will require you to send us some KYC/AML documents. Please contact <a href="mailto:support@volabit.com">support@volabit.com</a> for further instructions. </p>
 </li>
 </ol>
 
-<h2>
+<h2 style="padding-top: 30px">
 <a id="part-ii-creating-an-app-and-managing-tokens" class="anchor" href="#part-ii-creating-an-app-and-managing-tokens" aria-hidden="true"><span class="octicon octicon-link"></span></a>PART II. CREATING AN APP AND MANAGING TOKENS</h2>
 
-<p>Once the paperwork has been cleared it is time to generate an Application ID with its secret key and use these to generate a token and all subsequent token refreshes.</p>
+<p>Once the paperwork has been cleared, you can generate an Application ID with its secret key and use these credentials to generate a token and all subsequent token refreshes.</p>
 
 <p>Go to <a href="https://www.volabit.com/oauth/applications">https://www.volabit.com/oauth/applications</a> and create an application with the default Redirect URL <code>urn:ietf:wg:oauth:2.0:oob</code>.
-  In the following view, click Authorize, follow instructions until you are provided with an authorization code. This authorization code (<code>AUTH_CODE</code>) will be used to generate a <code>access_token</code> and a <code>refresh_token</code> with the following call:</p>
+  In the following view, click <b>Authorize</b> and follow instructions until you are provided with an authorization code. This authorization code (<code>AUTH_CODE</code>) will be used to generate an <code>access_token</code> and a <code>refresh_token</code> with the following call:</p>
 
 <div class="highlight highlight-bash"><pre>    curl -F grant_type=authorization_code \
     -F client_id=APP_ID \
@@ -59,7 +59,7 @@
     -F redirect_uri=urn:ietf:wg:oauth:2.0:oob \
     -X POST https://www.volabit.com/oauth/token</pre></div>
 
-<p>Tokens can be used to make calls until they expire <strong>every 8 hours</strong>, afterwards you will use the <code>refresh_token</code> to generate a new token.</p>
+<p>Tokens can be used to make calls until they expire <strong>in 8 hours</strong>. Afterwards you will have to use <code>refresh_token</code> to generate a new token.</p>
 
 <div class="highlight highlight-bash"><pre>    curl -F grant_type=refresh_token \
     -F client_id=APP_ID \
@@ -67,26 +67,27 @@
     -F refresh_token=REFRESH_TOKEN \
     -X POST https://www.volabit.com/oauth/token</pre></div>
 
-<p>You can check your token info in</p>
+<p>How to check your token info:</p>
 
 <div class="highlight highlight-bash"><pre>    curl -H <span class="pl-s1"><span class="pl-pds">"</span>Authorization: Bearer YOUR_TOKEN<span class="pl-pds">"</span></span> \
       https://www.volabit.com/oauth/token/info</pre></div>
 
-<p><strong>Tip: Check for an expired token in every call you make</strong></p>
+<p><strong>Tip: Check for an expired token before making each call</strong></p>
 
 <p>Now that you can create and refresh tokens, lets move on to the interesting part.</p>
 
-<h2>
+<h2 style="padding-top: 30px">
 <a id="part-iii-api-implementation" class="anchor" href="#part-iii-api-implementation" aria-hidden="true"><span class="octicon octicon-link"></span></a>PART III: API IMPLEMENTATION</h2>
 
-<p><strong>For partner services</strong></p>
+<h3>For services partnering with Volabit</h3>
 
+<p><strong>Overview</strong></p>
 <ul>
-<li>Send money to a user in Volabit, the user might or might not be registered in volabit.com</li>
+<li>Send money to a current user in Volabit, or to anyone in Mexico that can sign up for Volabit.</li>
 <li>
-<p>Request money from a Volabit user.</p>
+<p>Request money from an existing user.</p>
 
-<p>Required EndPoints:</p>
+<p>Required Endpoints:</p>
 </li>
 <li><code>api/v1/users [POST]</code></li>
 <li><code>api/v1/users/send [POST]</code></li>
@@ -94,32 +95,32 @@
 <li><code>api/v1/users/requests/methods [POST]</code></li>
 </ul>
 
-<h3>
+<h3 style="padding-top: 15px">
 <a id="create-user-apiv1users-post" class="anchor" href="#create-user-apiv1users-post" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create User <code>api/v1/users [POST]</code>
 </h3>
 
-<p>For a seamless money sending and receiving experience Volabit requires you to register your customer as a Volabit user.</p>
+<p>For a seamless money sending and receiving experience, we require that you to register your customer as a user on Volabit.com.</p>
 
-<p>After you have created a Volabit user you can proceed to <strong>push</strong> and <strong>request</strong> payments from him/her.</p>
+<p>After you have created a user you can proceed to <strong>push</strong> and <strong>request</strong> payments from him/her.</p>
 
-<h3>
+<h3 style="padding-top: 15px">
 <a id="send-money-to-a-user-apiv1userssend-post" class="anchor" href="#send-money-to-a-user-apiv1userssend-post" aria-hidden="true"><span class="octicon octicon-link"></span></a>Send Money to a User <code>api/v1/users/send [POST]</code>
 </h3>
 
-<p>In order to minimize exposure to the BTC value changes, Volabit allows some services to create instant/green addresses. Any money sent to one of these addresses will be immediately converted to fiat currency.</p>
+<p>In order to minimize exposure to fluctuations in the value of Bitcoins, approved services can generate green addresses for instant verification. Any money sent to one of these trusted addresses will be immediately converted to fiat currency (prior to any confirmations).</p>
 
-<h3>
+<h3 style="padding-top: 15px">
 <a id="request-payment-from-a-user-apiv1usersrequests-post" class="anchor" href="#request-payment-from-a-user-apiv1usersrequests-post" aria-hidden="true"><span class="octicon octicon-link"></span></a>Request Payment from a User <code>api/v1/users/requests [POST]</code>
 </h3>
 
-<p>You will create a payment slip for the user and will provide a payment Bitcoin address. Whenever the user pays the slip (convenience store, bank deposit, etc) the fiat will be automatically converted to Bitcoins and immediately sent to the address that was provided when making the API call.</p>
+<p>You will create a payment slip for the user and will provide a Bitcoin address for the payment. Whenever the user pays the slip (via convenience store deposits, bank deposit, etc) the deposited amount will automatically be converted to Bitcoins and immediately sent to the address that was provided when making the API call.</p>
 
-<h3>
+<h3 style="padding-top: 15px">
 <a id="send-money-to-user-implementation" class="anchor" href="#send-money-to-user-implementation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Send Money to User Implementation</h3>
 
 <ol>
 <li>
-<p>If you haven’t already, create a Volabit user for your user, ideally you will use the email address he used for signing up with your service. This action is done with a <code>POST api/v1/users</code> with the following parameters:</p>
+<p>If you haven’t already, create a Volabit account for your user. Ideally you will use the same email address that he used to sign up for your service. This action is done with a <code>POST api/v1/users</code> with the following parameters:</p>
 
 <ul>
 <li>[email] <em>required</em>: email of your user</li>
@@ -135,7 +136,7 @@ An email notification will be sent to the user.</li>
     -X POST https://www.volabit.com/api/v1/users</pre></div>
 </li>
 <li>
-<p>Get a quote in BTC for the amount of pesos to be sent to the user. <code>GET api/v1/spot-prices</code> allows for BTC/MXN and MXN/BTC conversions that include Volabit’s fees, hence the spot suffix.</p>
+<p>Get a quote in BTC for the amount of Mexican Pesos to be sent to the user. <code>GET api/v1/spot-prices</code> allows for BTC/MXN and MXN/BTC conversions that include Volabit’s fees. *All BTC amounts are denominated in Satoshis.</p>
 
 <ul>
 <li>[currency_from] <em>required</em>: Base currency you are converting from</li>
@@ -153,14 +154,14 @@ For sending 10,000 pesos to a Volabit user the params are: currency_from = MXN, 
     https://www.volabit.com/api/v1/spot-prices</pre></div>
 </li>
 <li>
-<p>Generate a BTC address for the user. <code>POST api/v1/users/send</code>. Any bitcoins sent to this address will be immediately converted to fiat with 0 confirmations. Note that this method allows for selecting who will pay the fee. If Sender is selected, the Volabit user will receive the full amount entered. If Receiver is selected, the fees will be deducted from the amount sent. Params:</p>
+<p>Generate a Bitcoin address for the user via <code>POST api/v1/users/send</code>. Any bitcoins sent to this address will be immediately converted to fiat with 0 confirmations. Note that this method allows you to select who will pay the transaction fee. If <strong>Sender</strong> is selected, the recipient will receive the full amount entered. If <strong>Receiver</strong> is selected, the fees will be deducted from the amount sent. The parameters are:</p>
 
 <ul>
 <li>[email_to] <em>required</em>: Email of the Volabit user that will be credited the money.</li>
 <li>[currency_from] <em>required</em>: Only BTC for the moment</li>
 <li>[currency_to] <em>required</em>: Only MXN for the moment</li>
-<li>[amount] <em>required</em>: Amount in fiat (MXN) in cents the Volabit user will receive.</li>
-<li>[fee_player] required: Will the fee be deducted from the Volabit user? or will the BTC amount returned include the fee?</li>
+<li>[amount] <em>required</em>: Amount in fiat (MXN) in <strong>cents</strong> the Volabit user will receive.</li>
+<li>[fee_player] required: Will the fee be deducted from the Volabit user or will the fee be included in the Bitcoin amount sent (sender pays the fee)?</li>
 </ul>
 
 <h4>
@@ -176,12 +177,12 @@ For sending 10,000 pesos to a Volabit user the params are: currency_from = MXN, 
 </li>
 </ol>
 
-<h3>
+<h3 style="padding-top: 15px">
 <a id="request-payment-from-user-implementation" class="anchor" href="#request-payment-from-user-implementation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Request Payment from User Implementation</h3>
 
 <ol>
 <li>
-<p>If you haven’t already, create a Volabit user for your user, ideally you will use the email address he used for signing up with your service. This action is done with a <code>POST api/v1/users</code> with the following parameters:</p>
+<p>If you haven’t already, create a Volabit account for your user. Ideally you will use the same email address that he used to sign up for your service. This action is done with a <code>POST api/v1/users</code> with the following parameters:</p>
 
 <ul>
 <li>[email] <em>required</em>: email of your user</li>
@@ -197,14 +198,14 @@ An email notification will be sent to the user.</li>
     -X POST https://www.volabit.com/api/v1/users</pre></div>
 </li>
 <li>
-<p>Create a payment slip for your user so you can collect a payment from him/her. <code>POST api/v1/users/requests</code></p>
+<p>Create a payment slip for your user so that you can collect a payment from him/her. <code>POST api/v1/users/requests</code></p>
 
 <ul>
 <li>[email] <em>required</em>: Email of the Volabit user a payment is being requested from</li>
 <li>[currency] <em>required</em>: The payment slip’s currency (only MXN for now)</li>
 <li>[amount] <em>required</em>: The amount for which the payment slip will be created (in cents).</li>
-<li>[type] <em>required</em>: For what convenience store will the slip be created for, you can get all accepted method through <code>GET api/v1/users/requests/methods</code>.</li>
-<li>[address] <em>required</em>: Bitcoin address where you want Volabit to send you the payment. Bitcoins will be sent the moment the payment is confirmed in Volabit’s platform.</li>
+<li>[type] <em>required</em>: Method of payment for the payment slip (e.g. Convenience store, bank branch, bank transfer) You can view all accepted methods through <code>GET api/v1/users/requests/methods</code>.</li>
+<li>[address] <em>required</em>: Bitcoin address where you would like your payment to be sent. Bitcoins will be sent the moment the fiat payment is confirmed in Volabit’s platform.</li>
 </ul>
 
 <div class="highlight highlight-bash"><pre>  curl -H <span class="pl-s1"><span class="pl-pds">"</span>Authorization: Bearer YOUR_TOKEN<span class="pl-pds">"</span></span> \
