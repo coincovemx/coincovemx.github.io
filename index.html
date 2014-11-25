@@ -17,6 +17,10 @@
       <header>
         <h1>Volabit API</h1>
         <p>Create users and send or request money to them.</p>
+
+
+        <p class="view"><a href="https://github.com/coincovemx">View My GitHub Profile</a></p>
+
       </header>
       <section>
         <h1>
@@ -127,25 +131,25 @@ An email notification will be sent to the user.</li>
 <a id="bash-example" class="anchor" href="#bash-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bash Example</h4>
 
 <div class="highlight highlight-bash"><pre>  curl -H <span class="pl-s1"><span class="pl-pds">"</span>Authorization: Bearer YOUR_TOKEN<span class="pl-pds">"</span></span> \
-    -F user[email]=a_user@volabit.com
+    -F user[email]=a_user@volabit.com \
     -X POST https://www.volabit.com/api/v1/users</pre></div>
 </li>
 <li>
 <p>Get a quote in BTC for the amount of pesos to be sent to the user. <code>GET api/v1/spot-prices</code> allows for BTC/MXN and MXN/BTC conversions that include Volabit’s fees, hence the spot suffix.</p>
 
 <ul>
-<li>[currency_from] required: Base currency you are converting from</li>
-<li>[currency_to] required: Counter currency you are converting to.</li>
-<li>[amount] required: Amount of the Base currency you want to convert to Counter currency.
+<li>[currency_from] <em>required</em>: Base currency you are converting from</li>
+<li>[currency_to] <em>required</em>: Counter currency you are converting to.</li>
+<li>[amount] <em>required</em>: Amount of the Base currency you want to convert to Counter currency.
 For sending 10,000 pesos to a Volabit user the params are: currency_from = MXN, currency_to = BTC, amount = 1000000</li>
 </ul>
 
 <h4>
 <a id="bash-example-1" class="anchor" href="#bash-example-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bash Example</h4>
 
-<div class="highlight highlight-bash"><pre>  curl -F currency_from=BTC
-    -F currency_to=MXN
-    -F amount=100000000
+<div class="highlight highlight-bash"><pre>  curl -F currency_from=BTC \
+    -F currency_to=MXN \
+    -F amount=100000000 \
     https://www.volabit.com/api/v1/spot-prices</pre></div>
 </li>
 <li>
@@ -163,10 +167,10 @@ For sending 10,000 pesos to a Volabit user the params are: currency_from = MXN, 
 <a id="bash-example-2" class="anchor" href="#bash-example-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bash Example</h4>
 
 <div class="highlight highlight-bash"><pre>  curl -H <span class="pl-s1"><span class="pl-pds">"</span>Authorization: Bearer YOUR_TOKEN<span class="pl-pds">"</span></span> \
-    -F email_to=a_user@volabit.com
-    -F currency_from=BTC
-    -F currency_to=MXN
-    -F amount=500000
+    -F email_to=a_user@volabit.com \
+    -F currency_from=BTC \
+    -F currency_to=MXN \
+    -F amount=500000 \
     https://www.volabit.com/api/v1/users/send</pre></div>
 </li>
 </ol>
@@ -188,7 +192,7 @@ An email notification will be sent to the user.</li>
 <a id="bash-example-3" class="anchor" href="#bash-example-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bash Example</h4>
 
 <div class="highlight highlight-bash"><pre>  curl -H <span class="pl-s1"><span class="pl-pds">"</span>Authorization: Bearer YOUR_TOKEN<span class="pl-pds">"</span></span> \
-    -F user[email]=a_user@volabit.com
+    -F user[email]=a_user@volabit.com \
     -X POST https://www.volabit.com/api/v1/users</pre></div>
 </li>
 <li>
@@ -203,11 +207,11 @@ An email notification will be sent to the user.</li>
 </ul>
 
 <div class="highlight highlight-bash"><pre>  curl -H <span class="pl-s1"><span class="pl-pds">"</span>Authorization: Bearer YOUR_TOKEN<span class="pl-pds">"</span></span> \
-    -F email=a_user@volabit.com
-    -F currency=MXN
-    -F amount=500000
-    -F <span class="pl-s3">type</span>=oxxo_mx
-    -F address=q15YTN2uxdJ7GMkvQ2prVJVfHcFw3t5YEwjq
+    -F email=a_user@volabit.com \
+    -F currency=MXN \
+    -F amount=500000 \
+    -F <span class="pl-s3">type</span>=oxxo_mx \
+    -F address=q15YTN2uxdJ7GMkvQ2prVJVfHcFw3t5YEwjq \
     https://www.volabit.com/api/v1/users/requests</pre></div>
 </li>
 </ol>
