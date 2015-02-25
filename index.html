@@ -50,7 +50,11 @@
 <p>Once the paperwork has been cleared it is time to generate an Application ID with its secret key and use these to generate a token and all subsequent token refreshes.</p>
 
 <p>Go to <a href="https://www.volabit.com/oauth/applications">https://www.volabit.com/oauth/applications</a> and create an application with the default Redirect URL <code>urn:ietf:wg:oauth:2.0:oob</code>.
-  In the following view, click Authorize, follow instructions until you are provided with an authorization code. This authorization code (<code>AUTH_CODE</code>) will be used to generate a <code>access_token</code> and a <code>refresh_token</code> with the following call:</p>
+  In the following view, click Authorize, follow instructions until you are provided with an authorization code. </p>
+
+<p>if you like to do this programmatically you can redirect your users to <code>https://www.volabit.com/oauth/authorize?client_id=APP_ID&amp;redirect_uri=REDIRECT_URL&amp;response_type=code</code>.</p>
+
+<p>This authorization code (<code>AUTH_CODE</code>) will be used to generate a <code>access_token</code> and a <code>refresh_token</code> with the following call:</p>
 
 <div class="highlight highlight-bash"><pre>    curl -F grant_type=authorization_code \
     -F client_id=APP_ID \
